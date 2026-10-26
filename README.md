@@ -1,6 +1,6 @@
 # Customer Shopping Behavior Analysis
 
-End-to-end data analysis of 3,900 retail purchases using Python, MySQL and Power BI, showing that revenue differences come from order volume, not spend per order.
+End-to-end data analysis of 3,900 retail purchases using Python, MySQL, and Power BI, showing that revenue differences come from order volume, not spend per order.
 
 ![Dashboard Preview](Dashboard.png)
 
@@ -27,7 +27,7 @@ The dataset includes customer demographics, product details, purchase amounts, l
 | Stage | Tools |
 |---|---|
 | Data cleaning and exploratory data analysis | Python, pandas, matplotlib, seaborn |
-| Data storage and business analysis | MySQL(CTEs, window functions, aggregations) |
+| Data storage and business analysis | MySQL (CTEs, window functions, aggregations) |
 | Dashboard | Power BI |
 | Development environment | Jupyter Notebook, MySQL Workbench |
 
@@ -142,6 +142,8 @@ customer_shopping_behavior_analysis/
 └── Dashboard.png
 ```
 
+---
+
 ## How to Run the Project
 
 ### 1. Install Dependencies
@@ -162,13 +164,13 @@ CREATE DATABASE customer_behavior;
 
 Set your MySQL password as an environment variable rather than hardcoding it in the notebook.
 
-For example, on macOS/Linux:
+For macOS/Linux:
 
 ```bash
 export MYSQL_PASSWORD="your_password"
 ```
 
-On Windows PowerShell:
+For Windows PowerShell:
 
 ```powershell
 $env:MYSQL_PASSWORD="your_password"
@@ -178,17 +180,17 @@ Configure the notebook to read the password from the environment variable and up
 
 ### 4. Run the Jupyter Notebook
 
-Open the notebook in the `notebooks/` directory and run the cells from top to bottom.
+Open `customer_shopping_behavior_analysis.ipynb` from the repository root and run the cells from top to bottom.
 
 The notebook performs data cleaning, exploratory data analysis, and database loading. The final database-loading step creates or populates the cleaned `customer` table in MySQL.
 
 ### 5. Execute the SQL Queries
 
-Open the SQL files in `sql/` using MySQL Workbench and execute the queries to explore the business questions.
+Open `customer_shopping_behavior_analysis.sql` from the repository root using MySQL Workbench and execute the queries to explore the business questions.
 
 ### 6. Open the Power BI Dashboard
 
-Open the `.pbix` file in Power BI Desktop to explore the dashboard and its visualizations.
+Open `customer_shopping_behavior_dashboard.pbix` from the repository root using Power BI Desktop to explore the dashboard and its visualizations.
 
 Power BI Desktop is available for free on Windows.
 
