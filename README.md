@@ -134,17 +134,12 @@ The project includes 13 SQL analyses:
 ```text
 customer_shopping_behavior_analysis/
 ├── README.md
-├── data/
-│   ├── raw_data.csv
-│   └── full_data.csv
-├── notebooks/
-│   └── customer_shopping_behavior_analysis.ipynb
-├── sql/
-│   ├── customer_shopping_behavior_analysis.sql
-├── powerbi/
-│   └── customer_shopping_behavior_dashboard.pbix
-└── images/
-    └── dashboard.png
+├── customer_shopping_behavior.csv
+├── customer_behavior.csv
+├── customer_shopping_behavior_analysis.ipynb
+├── customer_shopping_behavior_analysis.sql
+├── customer_shopping_behavior_dashboard.pbix
+└── Dashboard.png
 ```
 
 ## How to Run the Project
