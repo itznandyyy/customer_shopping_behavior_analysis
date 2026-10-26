@@ -1,5 +1,7 @@
 # Customer Shopping Behavior Analysis
 
+End-to-end data analysis of 3,900 retail purchases using Python, MySQL and Power BI, showing that revenue differences come from order volume, not spend per order.
+
 ![Dashboard Preview](Dashboard.png)
 
 **Business Question:** Do discounts, subscriptions, and shipping options make customers spend more, and where does revenue actually come from?
