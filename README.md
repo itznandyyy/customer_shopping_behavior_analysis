@@ -1,63 +1,227 @@
-Customer Shopping Behavior Analysis
+# Customer Shopping Behavior Analysis
 
-Dashboard
+## Dashboard
 
-Question: do discounts, subscriptions and shipping options make customers spend more, and where does revenue actually come from?
+**Business Question:** Do discounts, subscriptions, and shipping options make customers spend more, and where does revenue actually come from?
 
-Short answer: no. Average spend per order is about $60 in almost every group. Revenue differences between groups come from how many orders they place, not how much each order is worth.
+**Short Answer:** No. Average spend per order is approximately $60 across almost every customer group. Revenue differences between groups are driven primarily by the number of orders, not by differences in average order value.
 
-Dataset
+---
 
-3,900 retail purchases, one row per customer, 18 columns (age, gender, item, category, purchase amount, location, season, review rating, subscription, shipping, discount, previous purchases, payment method, purchase frequency). Source: the public "Customer Shopping Behavior" dataset (Kaggle).
+## Dataset
 
-Tools
-Stage	Tool
-Cleaning, new columns, EDA	Python (pandas, matplotlib, seaborn) in Jupyter
-Storage and business questions	MySQL (13 queries, window functions, CTEs)
-Dashboard	Power BI
-Key findings
-Discounts don't raise spend. 43% of orders use a discount, yet discounted orders average $59.28 vs $60.13 without one. Giving discounts isn't increasing basket size.
-Subscribers don't spend more. Subscribers average $59.49 vs $59.87 for non-subscribers. Only 27% of customers subscribe, but repeat buyers (more than 5 previous purchases) subscribe more often: 27.6% vs 22.4%.
-Men produce 68% of revenue through volume, not spend. Men $157,890 vs women $75,191, but average order is nearly identical ($59.54 vs $60.25). Men place about twice as many orders (2,652 vs 1,248).
-Clothing is the core category at $104,264, about 45% of revenue. Outerwear is the smallest and peaks in Fall.
-No state or age group dominates. The top state (Montana, $5,784) is only about 2.5% of revenue, and the four age groups each bring $56K-$62K.
+The project uses the public **Customer Shopping Behavior** dataset from Kaggle.
 
-Recommendation: test lower discount frequency to protect margin, and focus growth on acquiring customers (especially women) rather than on upselling existing ones.
+- **Total records:** 3,900 retail purchases
+- **Columns:** 18
+- **Record structure:** One row per customer purchase
 
-Data cleaning (Python)
-Checked for duplicates (none) and confirmed customer_id is unique.
-Filled 37 missing review ratings (0.9%) with the median rating of the same category.
-Renamed columns to snake_case.
-Dropped promo_code_used, which was identical to discount_applied in every row.
-Added age_group (four equal-sized quartile groups) and purchase_frequency_days ("Bi-Weekly" assumed to mean every 2 weeks, since the data doesn't define it).
-SQL questions (sql/)
-Revenue by gender
-Discounted orders that still beat the average
-Top 5 products by review rating
-Standard vs Express shipping spend
-Subscriber vs non-subscriber spend and revenue
-Products with the highest discount rate
-Customer segments (New / Returning / Loyal)
-Top 3 products in each category (DENSE_RANK)
-Are repeat buyers more likely to subscribe?
-Revenue by age group
-Revenue by category and season
-Top 10 states
-Payment method breakdown
-Project structure
-customer-behavior-analysis/
+The dataset includes customer demographics, product details, purchase amounts, location, season, review ratings, subscription status, shipping type, discounts, previous purchases, payment methods, and purchase frequency.
+
+---
+
+## Tools & Technologies
+
+| Stage | Tools |
+|---|---|
+| Data cleaning and exploratory data analysis | Python, pandas, matplotlib, seaborn |
+| Data storage and business analysis | MySQL(CTEs, window functions, aggregations) |
+| Dashboard | Power BI |
+| Development environment | Jupyter Notebook, MySQL Workbench |
+
+---
+
+## Key Findings
+
+### 1. Discounts Don't Increase Average Spend
+
+- **Discounted orders:** $59.28 average purchase amount
+- **Non-discounted orders:** $60.13 average purchase amount
+- **Orders using discounts:** 43%
+
+Discounted orders have a slightly lower average purchase amount. Based on this dataset, discounts do not appear to increase basket size.
+
+### 2. Subscribers Don't Spend More
+
+- **Subscribers:** $59.49 average purchase amount
+- **Non-subscribers:** $59.87 average purchase amount
+- **Customers with subscriptions:** 27%
+
+Repeat buyers with more than five previous purchases have a higher subscription rate:
+
+- **Repeat buyers:** 27.6%
+- **Other customers:** 22.4%
+
+Subscriptions are more common among repeat buyers, but subscribers do not have a higher average purchase amount.
+
+### 3. Men Generate More Revenue Through Order Volume
+
+| Gender | Total Revenue | Average Purchase Amount | Number of Orders |
+|---|---:|---:|---:|
+| Male | $157,890 | $59.54 | 2,652 |
+| Female | $75,191 | $60.25 | 1,248 |
+
+Male customers generate approximately 68% of total revenue, primarily because they account for more orders. Average purchase amounts are nearly identical across genders.
+
+### 4. Clothing Is the Largest Revenue Category
+
+- **Clothing revenue:** $104,264
+- **Share of total revenue:** Approximately 45%
+- **Lowest-revenue category:** Outerwear
+- **Seasonal pattern:** Outerwear revenue peaks in Fall.
+
+Clothing is the core revenue category and may deserve priority when evaluating product assortment and marketing opportunities.
+
+### 5. Revenue Is Distributed Across States and Age Groups
+
+- **Top state:** Montana, with $5,784 in revenue.
+- **Revenue contribution:** Approximately 2.5% of total revenue.
+- **Age groups:** Each of the four age groups generates approximately $56,000–$62,000 in revenue.
+
+No single state or age group dominates revenue, suggesting that sales are relatively distributed across these customer segments.
+
+---
+
+## Business Recommendations
+
+1. **Review discount strategy:** Test reducing discount frequency and compare conversion rates, average order value, and profit margins before making broader changes.
+2. **Focus on customer acquisition:** Since average purchase amounts are similar across groups, increasing the number of customers and orders may offer greater revenue potential than relying on upselling alone.
+3. **Explore growth among women:** Female customers have a similar average purchase amount but account for fewer orders. Test targeted campaigns to understand whether additional acquisition could increase revenue.
+4. **Prioritize clothing:** Investigate opportunities to improve product availability, marketing, and seasonal promotions in the highest-revenue category.
+5. **Strengthen retention:** Repeat buyers have a higher subscription rate, so evaluate whether subscription programs can improve purchase frequency and long-term customer value.
+
+*Note: These are hypotheses for further testing, not proven causal effects. The dataset does not establish whether discounts, subscriptions, or marketing campaigns cause changes in purchasing behavior.*
+
+---
+
+## Data Cleaning & Preparation (Python)
+
+The data preparation process included:
+
+- Checked for duplicate records and confirmed that `customer_id` is unique.
+- Filled 37 missing review ratings (0.9%) using the median rating within the corresponding product category.
+- Renamed columns using `snake_case` for consistency.
+- Dropped `promo_code_used` because it was identical to `discount_applied` in every row.
+- Created an `age_group` column using four equal-sized quartile groups.
+- Created a `purchase_frequency_days` column, assuming that "Bi-Weekly" means every 14 days because the dataset does not explicitly define the term.
+
+---
+
+## SQL Business Questions
+
+The project includes 13 SQL analyses:
+
+1. Revenue by gender.
+2. Discounted orders that exceed the average purchase amount.
+3. Top five products by review rating.
+4. Average purchase amount by shipping type (Standard vs. Express).
+5. Subscriber vs. non-subscriber spending and revenue.
+6. Products with the highest discount rates.
+7. Customer segmentation: New, Returning, and Loyal.
+8. Top three products in each category using `DENSE_RANK()`.
+9. Whether repeat buyers are more likely to subscribe.
+10. Revenue by age group.
+11. Revenue by category and season.
+12. Top 10 states by revenue.
+13. Payment method breakdown.
+
+---
+
+## Project Structure
+
+```text
+customer_shopping_behavior_analysis/
 ├── README.md
-├── data/        raw CSV and the cleaned CSV
-├── notebooks/   Jupyter notebook (cleaning, EDA, load to MySQL)
-├── sql/         the 13 queries
-├── powerbi/     dashboard (.pbix)
-└── images/      dashboard screenshot
-How to run
-Install the libraries: pip install pandas matplotlib seaborn sqlalchemy pymysql
-Create the database in MySQL: CREATE DATABASE customer_behavior;
-Set your MySQL password as an environment variable (never write it in the code), then run the notebook top to bottom. The last cell loads the cleaned table into MySQL as customer.
-Run the queries in sql/ in MySQL Workbench.
-Open the .pbix file in Power BI Desktop (free, Windows).
-Limitations
+├── data/
+│   ├── raw_data.csv
+│   └── full_data.csv
+├── notebooks/
+│   └── customer_shopping_behavior_analysis.ipynb
+├── sql/
+│   ├── customer_shopping_behavior_analysis.sql
+├── powerbi/
+│   └── customer_shopping_behavior_dashboard.pbix
+└── images/
+    └── dashboard.png
+```
 
-The data looks synthetic: purchase amounts, ages and ratings are spread almost evenly with no extreme values, and there are no dates, so trends over time can't be studied. Findings describe this dataset, not a real retailer.
+## How to Run the Project
+
+### 1. Install Dependencies
+
+```bash
+pip install pandas matplotlib seaborn sqlalchemy pymysql
+```
+
+### 2. Create the MySQL Database
+
+Open MySQL Workbench and execute:
+
+```sql
+CREATE DATABASE customer_behavior;
+```
+
+### 3. Configure Database Credentials
+
+Set your MySQL password as an environment variable rather than hardcoding it in the notebook.
+
+For example, on macOS/Linux:
+
+```bash
+export MYSQL_PASSWORD="your_password"
+```
+
+On Windows PowerShell:
+
+```powershell
+$env:MYSQL_PASSWORD="your_password"
+```
+
+Configure the notebook to read the password from the environment variable and update the connection settings for your MySQL username and host.
+
+### 4. Run the Jupyter Notebook
+
+Open the notebook in the `notebooks/` directory and run the cells from top to bottom.
+
+The notebook performs data cleaning, exploratory data analysis, and database loading. The final database-loading step creates or populates the cleaned `customer` table in MySQL.
+
+### 5. Execute the SQL Queries
+
+Open the SQL files in `sql/` using MySQL Workbench and execute the queries to explore the business questions.
+
+### 6. Open the Power BI Dashboard
+
+Open the `.pbix` file in Power BI Desktop to explore the dashboard and its visualizations.
+
+Power BI Desktop is available for free on Windows.
+
+---
+
+## Limitations
+
+- The dataset may be synthetic and may not reflect real customer behavior.
+- Missing transaction dates limit sales trend analysis.
+- The analysis cannot prove that discounts or subscriptions cause changes in spending.
+- Missing product costs prevent profitability analysis.
+- Findings may not represent real-world retail businesses.
+
+---
+
+## Conclusion
+
+This project demonstrates an end-to-end retail analytics workflow using Python, MySQL, and Power BI.
+
+The analysis suggests that **revenue differences are driven more by purchase volume than by average purchase amount**. Discounts and subscriptions do not show a meaningful increase in average spending in this dataset, while clothing is the largest revenue category.
+
+The next step is to validate these findings with real transaction data, profitability metrics, and controlled experiments before making business decisions.
+
+---
+
+## Skills Demonstrated
+
+- Python (Pandas, Matplotlib, Seaborn)
+- SQL (CTEs, Window Functions, Joins)
+- Data Cleaning and Exploratory Data Analysis
+- MySQL Database Integration
+- Power BI Dashboard Development
+- Business Insights and Data Visualization
