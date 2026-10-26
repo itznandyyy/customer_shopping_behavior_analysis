@@ -1,6 +1,6 @@
 # Customer Shopping Behavior Analysis
 
-## Dashboard.png
+![Dashboard Preview](Dashboard.png)
 
 **Business Question:** Do discounts, subscriptions, and shipping options make customers spend more, and where does revenue actually come from?
 
